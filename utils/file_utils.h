@@ -1,0 +1,13 @@
+#include <fstream>
+#include <stdexcept>
+#include <filesystem>
+
+std::string read_file(const std::filesystem::path& filepath) {
+    std::ifstream file(filepath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file: " + filepath.string());
+    }
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    file.close();
+    return content;
+}
