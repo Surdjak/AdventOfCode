@@ -6,8 +6,8 @@
 
 using namespace day1;
 
-const char* DATA_FILEPATH = "../data/data";
-const char* EXAMPLE_FILEPATH = "../data/example";
+const char* DATA_FILEPATH = "./data/day1/data";
+const char* EXAMPLE_FILEPATH = "./data/day1/example";
 
 std::vector<Dial::Instruction> parse_instructions(const std::string& content) {
     std::vector<Dial::Instruction> instructions;

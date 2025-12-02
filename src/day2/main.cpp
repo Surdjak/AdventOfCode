@@ -8,8 +8,8 @@
 #include <unordered_set>
 #include <chrono>
 
-const char* DATA_FILEPATH = "../data/data";
-const char* EXAMPLE_FILEPATH = "../data/example";
+const char* DATA_FILEPATH = "./data/day2/data";
+const char* EXAMPLE_FILEPATH = "./data/day2/example";
 
 struct Range {
     long long start;
