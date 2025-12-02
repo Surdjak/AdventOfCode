@@ -1,8 +1,10 @@
-#include "dial.h"
-#include "../../utils/file_utils.h"
+#include "day1/dial.h"
+#include "utils/file_utils.h"
 #include <sstream>
 #include <vector>
 #include <cassert>
+
+using namespace day1;
 
 const char* DATA_FILEPATH = "../data/data";
 const char* EXAMPLE_FILEPATH = "../data/example";
@@ -21,7 +23,7 @@ std::vector<Dial::Instruction> parse_instructions(const std::string& content) {
 
 bool run_example1() {
     Dial dial(100);
-    const auto example_content = read_file(EXAMPLE_FILEPATH);
+    const auto example_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse_instructions(example_content);
     for (const auto& instr : instructions) {
         dial.jump(instr);
@@ -31,7 +33,7 @@ bool run_example1() {
 
 bool run_example2() {
     Dial dial(100);
-    const auto example_content = read_file(EXAMPLE_FILEPATH);
+    const auto example_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse_instructions(example_content);
     for (const auto& instr : instructions) {
         dial.turn(instr);
@@ -41,7 +43,7 @@ bool run_example2() {
 
 bool run_data1() {
     Dial dial(100);
-    const auto data_content = read_file(DATA_FILEPATH);
+    const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse_instructions(data_content);
     for (const auto& instr : instructions) {
         dial.jump(instr);
@@ -52,7 +54,7 @@ bool run_data1() {
 
 bool run_data2() {
     Dial dial(100);
-    const auto data_content = read_file(DATA_FILEPATH);
+    const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse_instructions(data_content);
     for (const auto& instr : instructions) {
         dial.turn(instr);

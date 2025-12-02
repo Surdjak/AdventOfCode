@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/timothie.geulin/Documents/AdventOfCode",
+  "command": "/usr/bin/c++ -DFMT_HEADER_ONLY=1 -I/home/timothie.geulin/Documents/AdventOfCode/src/day1 -I/home/timothie.geulin/Documents/AdventOfCode/src/../include -isystem /home/timothie.geulin/.conan2/p/fmt9ee7861a30e6d/p/include -m64 -O3 -DNDEBUG -std=c++20 -o src/CMakeFiles/day1.dir/day1/dial.cpp.o -c /home/timothie.geulin/Documents/AdventOfCode/src/day1/dial.cpp",
+  "file": "/home/timothie.geulin/Documents/AdventOfCode/src/day1/dial.cpp",
+  "output": "/home/timothie.geulin/Documents/AdventOfCode/src/CMakeFiles/day1.dir/day1/dial.cpp.o"
+},
+{
+  "directory": "/home/timothie.geulin/Documents/AdventOfCode",
+  "command": "/usr/bin/c++ -DFMT_HEADER_ONLY=1 -I/home/timothie.geulin/Documents/AdventOfCode/src/utils -I/home/timothie.geulin/Documents/AdventOfCode/src/../include -isystem /home/timothie.geulin/.conan2/p/fmt9ee7861a30e6d/p/include -m64 -O3 -DNDEBUG -std=c++20 -o src/CMakeFiles/utils.dir/utils/file_utils.cpp.o -c /home/timothie.geulin/Documents/AdventOfCode/src/utils/file_utils.cpp",
+  "file": "/home/timothie.geulin/Documents/AdventOfCode/src/utils/file_utils.cpp",
+  "output": "/home/timothie.geulin/Documents/AdventOfCode/src/CMakeFiles/utils.dir/utils/file_utils.cpp.o"
+},
+{
+  "directory": "/home/timothie.geulin/Documents/AdventOfCode",
+  "command": "/usr/bin/c++ -DFMT_HEADER_ONLY=1 -I/home/timothie.geulin/Documents/AdventOfCode/src/utils -I/home/timothie.geulin/Documents/AdventOfCode/src/../include -isystem /home/timothie.geulin/.conan2/p/fmt9ee7861a30e6d/p/include -m64 -O3 -DNDEBUG -std=c++20 -o src/CMakeFiles/utils.dir/utils/math_utils.cpp.o -c /home/timothie.geulin/Documents/AdventOfCode/src/utils/math_utils.cpp",
+  "file": "/home/timothie.geulin/Documents/AdventOfCode/src/utils/math_utils.cpp",
+  "output": "/home/timothie.geulin/Documents/AdventOfCode/src/CMakeFiles/utils.dir/utils/math_utils.cpp.o"
+},
+{
+  "directory": "/home/timothie.geulin/Documents/AdventOfCode",
+  "command": "/usr/bin/c++ -DFMT_HEADER_ONLY=1 -I/home/timothie.geulin/Documents/AdventOfCode/src/day1 -I/home/timothie.geulin/Documents/AdventOfCode/src/../include -I/home/timothie.geulin/Documents/AdventOfCode/src/utils -isystem /home/timothie.geulin/.conan2/p/fmt9ee7861a30e6d/p/include -m64 -O3 -DNDEBUG -std=c++20 -o src/CMakeFiles/day1_exe.dir/day1/main.cpp.o -c /home/timothie.geulin/Documents/AdventOfCode/src/day1/main.cpp",
+  "file": "/home/timothie.geulin/Documents/AdventOfCode/src/day1/main.cpp",
+  "output": "/home/timothie.geulin/Documents/AdventOfCode/src/CMakeFiles/day1_exe.dir/day1/main.cpp.o"
+},
+{
+  "directory": "/home/timothie.geulin/Documents/AdventOfCode",
+  "command": "/usr/bin/c++ -DFMT_HEADER_ONLY=1 -I/home/timothie.geulin/Documents/AdventOfCode/src/day1 -I/home/timothie.geulin/Documents/AdventOfCode/src/../include -I/home/timothie.geulin/Documents/AdventOfCode/src/utils -isystem /home/timothie.geulin/.conan2/p/fmt9ee7861a30e6d/p/include -m64 -O3 -DNDEBUG -std=c++20 -o src/CMakeFiles/day2_exe.dir/day2/main.cpp.o -c /home/timothie.geulin/Documents/AdventOfCode/src/day2/main.cpp",
+  "file": "/home/timothie.geulin/Documents/AdventOfCode/src/day2/main.cpp",
+  "output": "/home/timothie.geulin/Documents/AdventOfCode/src/CMakeFiles/day2_exe.dir/day2/main.cpp.o"
+}
+]

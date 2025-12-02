@@ -1,4 +1,5 @@
-#include "../../utils/file_utils.h"
+#include "utils/file_utils.h"
+#include "utils/math_utils.h"
 #include <sstream>
 #include <vector>
 #include <cassert>
@@ -9,11 +10,6 @@
 
 const char* DATA_FILEPATH = "../data/data";
 const char* EXAMPLE_FILEPATH = "../data/example";
-
-int digits(long long n) {
-    if (n == 0) return 1;
-    return static_cast<int>(std::floor(std::log10(std::abs(n)))) + 1;
-}
 
 struct Range {
     long long start;
@@ -53,8 +49,8 @@ long long process1(const std::vector<Range>& instructions) {
     // Get longest range (highest end)
     long long max_digits = 0;
     for (const auto& instr : instructions) {
-        int start_digits = digits(instr.start);
-        int end_digits = digits(instr.end);
+        int start_digits = utils::integer_digits(instr.start);
+        int end_digits = utils::integer_digits(instr.end);
         if (end_digits > max_digits) {
             max_digits = end_digits;
         }
@@ -76,7 +72,7 @@ long long process1(const std::vector<Range>& instructions) {
             // std::cout << numeric_value << " matched! Current sum: " << result << std::endl;
         }
         tested_value++;
-        if (digits(tested_value) > max_digits / 2) {
+        if (utils::integer_digits(tested_value) > max_digits / 2) {
             break;
         } 
     }
@@ -90,8 +86,8 @@ long long process2(const std::vector<Range>& instructions) {
     // Get longest range (highest end)
     long long max_digits = 0;
     for (const auto& instr : instructions) {
-        int start_digits = digits(instr.start);
-        int end_digits = digits(instr.end);
+        int start_digits = utils::integer_digits(instr.start);
+        int end_digits = utils::integer_digits(instr.end);
         if (end_digits > max_digits) {
             max_digits = end_digits;
         }
@@ -103,7 +99,7 @@ long long process2(const std::vector<Range>& instructions) {
     long long result = 0;
     std::unordered_set<long long> encountered_values;
     while(true) {
-        const int tested_value_digits = digits(tested_value);
+        const int tested_value_digits = utils::integer_digits(tested_value);
         std::string concatenated_value = std::to_string(tested_value);
         while (true) {
             concatenated_value += std::to_string(tested_value);
@@ -117,7 +113,7 @@ long long process2(const std::vector<Range>& instructions) {
             }
         }
         tested_value++;
-        if (digits(tested_value) > max_digits / 2) {
+        if (utils::integer_digits(tested_value) > max_digits / 2) {
             break;
         } 
     }
@@ -128,21 +124,21 @@ long long process2(const std::vector<Range>& instructions) {
 }
 
 bool run_example1() {
-    const auto data_content = read_file(EXAMPLE_FILEPATH);
+    const auto data_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse(data_content);
     long long result = process1(instructions);
     return result == 1227775554;
 }
 
 bool run_example2() {
-    const auto data_content = read_file(EXAMPLE_FILEPATH);
+    const auto data_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse(data_content);
     long long result = process2(instructions);
     return result == 4174379265;
 }
 
 bool run_data1() {
-    const auto data_content = read_file(DATA_FILEPATH);
+    const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse(data_content);
     long long result = process1(instructions);
     std::cout << "Final result: " << result << std::endl;
@@ -150,7 +146,7 @@ bool run_data1() {
 }
 
 bool run_data2() {
-    const auto data_content = read_file(DATA_FILEPATH);
+    const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse(data_content);
     long long result = process2(instructions);
     std::cout << "Final result: " << result << std::endl;

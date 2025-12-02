@@ -1,8 +1,9 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
+#include "utils/file_utils.h"
 
-std::string read_file(const std::filesystem::path& filepath) {
+std::string utils::read_file(const std::filesystem::path& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file: " + filepath.string());
