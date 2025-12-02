@@ -33,8 +33,8 @@ foreach(dir ${SUBDIRS})
         message(STATUS "Adding module library: ${lib_target}")
         add_library(${lib_target} ${module_sources})
 
-        find_package(fmt CONFIG REQUIRED)
-        target_link_libraries(${lib_target} PUBLIC fmt::fmt-header-only)
+        # find_package(fmt CONFIG REQUIRED)
+        # target_link_libraries(${lib_target} PUBLIC fmt::fmt-header-only)
 
         # Public include dirs (adjust as you like)
         target_include_directories(${lib_target}
