@@ -1,0 +1,12 @@
+[requires]
+fmt/11.0.2
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+fmt/*:header_only=True
+
+[layout]
+cmake_layout
