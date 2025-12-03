@@ -54,4 +54,4 @@ if __name__ == '__main__':
     with open(ROOT_PATH / 'meson.build', 'w') as f:
         f.write(top_level_meson_build_content)
     print('Running meson setup...')
-    subprocess.run(['meson', 'setup', '--reconfigure', 'builddir', '-Dbuildtype=release', '-Doptimization=3', '-Ddebug=false'], check=True)
+    subprocess.run(['meson', 'setup', '--reconfigure', 'builddir', '-Dbuildtype=release', '-Doptimization=3', '-Ddebug=false', '-Db_lto=true', '-Db_pie=true'], check=True)
