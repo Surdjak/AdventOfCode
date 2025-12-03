@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <cassert>
+#include <iostream>
 
 using namespace day1;
 
@@ -21,34 +22,45 @@ std::vector<Dial::Instruction> parse_instructions(const std::string& content) {
     return instructions;
 }
 
+template<bool JUMP>
+int process(std::vector<Dial::Instruction> instructions) {
+    const auto begin = std::chrono::high_resolution_clock::now();
+    Dial dial(100);
+    for (const auto& instr : instructions) {
+        if constexpr (JUMP) {
+            dial.jump(instr);
+        } else {
+            dial.turn(instr);
+        }
+    }
+    const auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Processing time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " µs" << std::endl;
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms*" << std::endl;
+    return dial.getEncounterCount(0);
+}
+
 bool run_example1() {
     Dial dial(100);
     const auto example_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse_instructions(example_content);
-    for (const auto& instr : instructions) {
-        dial.jump(instr);
-    }
-    return dial.getEncounterCount(0) == 3;
+    const auto result = process<true>(instructions);
+    return result == 3;
 }
 
 bool run_example2() {
     Dial dial(100);
     const auto example_content = utils::read_file(EXAMPLE_FILEPATH);
     auto instructions = parse_instructions(example_content);
-    for (const auto& instr : instructions) {
-        dial.turn(instr);
-    }
-    return dial.getEncounterCount(0) == 6;
+    const auto result = process<false>(instructions);
+    return result == 6;
 }
 
 bool run_data1() {
     Dial dial(100);
     const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse_instructions(data_content);
-    for (const auto& instr : instructions) {
-        dial.jump(instr);
-    }
-    dial.log_encountered_state(0);
+    const auto result = process<true>(instructions);
+    std::cout << "Data1 Result: " << result << std::endl;
     return true;
 }
 
@@ -56,10 +68,8 @@ bool run_data2() {
     Dial dial(100);
     const auto data_content = utils::read_file(DATA_FILEPATH);
     auto instructions = parse_instructions(data_content);
-    for (const auto& instr : instructions) {
-        dial.turn(instr);
-    }
-    dial.log_encountered_state(0);
+    const auto result = process<false>(instructions);
+    std::cout << "Data2 Result: " << result << std::endl;
     return true;
 }
 
