@@ -20,14 +20,15 @@ public:
     }
 
     long long get_largest_joltage(const int x) const {
-        std::vector<int> indices(x, 0);
+        long long total_joltage = 0;
+        int start = 0;
         for (int i = 0; i < x; ++i) {
-            int start = (i == 0) ? 0 : indices[i - 1] + 1;
             for (int l = 9; l >= 0; --l) {
                 bool found = false;
                 for(int b = start; b < batteries.size() - (x - i - 1); ++b) {
                     if (batteries[b] == l) {
-                        indices[i] = b;
+                        total_joltage = total_joltage * 10 + batteries[b];
+                        start = b + 1;
                         found = true;
                         break;
                     }
@@ -36,10 +37,6 @@ public:
                     break;
                 }
             }       
-        }
-        long long total_joltage = 0;
-        for (int i = 0; i < x; ++i) {
-            total_joltage = total_joltage * 10 + batteries[indices[i]];
         }
         return total_joltage;
     }
