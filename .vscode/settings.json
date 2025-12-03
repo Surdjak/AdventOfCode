@@ -1,0 +1,4 @@
+{
+    "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
+    "C_Cpp.default.compileCommands": "/home/timothie.geulin/Documents/AdventOfCode/builddir/compile_commands.json"
+}

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "day1/dial.h"
+#include "dial.h"
 
 using namespace day1;
 

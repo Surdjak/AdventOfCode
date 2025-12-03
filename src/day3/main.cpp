@@ -1,5 +1,5 @@
-#include "utils/file_utils.h"
-#include "utils/math_utils.h"
+#include "file_utils.h"
+#include "math_utils.h"
 #include <sstream>
 #include <vector>
 #include <cassert>

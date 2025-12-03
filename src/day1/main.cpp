@@ -1,5 +1,5 @@
-#include "day1/dial.h"
-#include "utils/file_utils.h"
+#include "dial.h"
+#include "file_utils.h"
 #include <sstream>
 #include <vector>
 #include <cassert>

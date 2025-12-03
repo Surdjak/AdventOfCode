@@ -1,7 +1,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
-#include "utils/file_utils.h"
+#include "file_utils.h"
 
 std::string utils::read_file(const std::filesystem::path& filepath) {
     try {
