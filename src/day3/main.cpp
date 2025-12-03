@@ -19,23 +19,29 @@ public:
         }
     }
 
-    int get_largest_joltage_for_2_batteries() const {
-        int largest_joltage = 0;
-        for(int i = 0; i < batteries.size(); ++i) {
-            for(int j = i + 1; j < batteries.size(); ++j) {
-                int joltage = batteries[i] * 10 + batteries[j];
-                if (joltage > largest_joltage) {
-                    largest_joltage = joltage;
+    long long get_largest_joltage(const int x) const {
+        std::vector<int> indices(x, 0);
+        for (int i = 0; i < x; ++i) {
+            int start = (i == 0) ? 0 : indices[i - 1] + 1;
+            for (int l = 9; l >= 0; --l) {
+                bool found = false;
+                for(int b = start; b < batteries.size() - (x - i - 1); ++b) {
+                    if (batteries[b] == l) {
+                        indices[i] = b;
+                        found = true;
+                        break;
+                    }
                 }
-            }
+                if (found) {
+                    break;
+                }
+            }       
         }
-        return largest_joltage;
-    }
-
-    int get_largest_joltage_for_x_batteries(const int x) const {
-        int largest_joltage = 0;
-        std::vector<int> indices(x);
-        return largest_joltage;
+        long long total_joltage = 0;
+        for (int i = 0; i < x; ++i) {
+            total_joltage = total_joltage * 10 + batteries[indices[i]];
+        }
+        return total_joltage;
     }
 };
 
@@ -49,20 +55,23 @@ std::vector<Bank> parse(const std::string& content) {
     return banks;
 }
 
-int process1(const std::vector<Bank>& banks) {
-    int total = 0;
+long long process(const std::vector<Bank>& banks, const int x) {
+    const auto begin = std::chrono::high_resolution_clock::now();
+    long long total = 0;
     for (const auto& bank : banks) {
-        int to_add = bank.get_largest_joltage();
-        std::cout << "Bank largest joltage: " << to_add << std::endl;
+        long long to_add = bank.get_largest_joltage(x);
         total += to_add;
     }
+    const auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Processing time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << " µs" << std::endl;
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms*" << std::endl;
     return total;
 }
 
 bool run_example1() {
     const auto data_content = utils::read_file(EXAMPLE_FILEPATH);
     auto banks = parse(data_content);
-    long long result = process1(banks);
+    long long result = process(banks, 2);
     std::cout << "Example1 result: " << result << std::endl;
     return result == 357;
 }
@@ -70,14 +79,31 @@ bool run_example1() {
 bool run_data1() {
     const auto data_content = utils::read_file(DATA_FILEPATH);
     auto banks = parse(data_content);
-    long long result = process1(banks);
+    long long result = process(banks, 2);
     std::cout << "Data1 result: " << result << std::endl;
+    return true;
+}
+
+bool run_example2() {
+    const auto data_content = utils::read_file(EXAMPLE_FILEPATH);
+    auto banks = parse(data_content);
+    long long result = process(banks, 12);
+    std::cout << "Example2 result: " << result << std::endl;
+    return result == 3121910778619;
+}
+
+bool run_data2() {
+    const auto data_content = utils::read_file(DATA_FILEPATH);
+    auto banks = parse(data_content);
+    long long result = process(banks, 12);
+    std::cout << "Data2 result: " << result << std::endl;
     return true;
 }
 
 int main() {
     run_example1();
     run_data1();
-    // assert(run_example2());
+    run_example2();
+    run_data2();
     return 0;
 }
