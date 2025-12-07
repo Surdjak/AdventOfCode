@@ -199,21 +199,13 @@ bool run_data2() {
     return true;
 }
 
-// bool run_test() {
-//     const auto data_content = utils::read_file(TEST_FILEPATH);
-//     const auto ingredients = parse(data_content);
-//     long long result = process2(ingredients);
-//     std::cout << "Test result: " << result << std::endl;
-//     return result == 12;
-// }
-
 int main() {
-    // if (!run_example1()) {
-    //     std::cerr << "Example1 failed!" << std::endl;
-    //     return 1;
-    // }
-    // std::cout << "Example1 passed!" << std::endl;
-    // run_data1();
+    if (!run_example1()) {
+        std::cerr << "Example1 failed!" << std::endl;
+        return 1;
+    }
+    std::cout << "Example1 passed!" << std::endl;
+    run_data1();
     if(!run_example2()) {
         std::cerr << "Example2 failed!" << std::endl;
         return 1;
