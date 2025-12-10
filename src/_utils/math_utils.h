@@ -2,6 +2,9 @@
 #include <cmath>
 #include <tuple>
 #include <functional>
+#include <vector>
+#include <array>
+#include <iostream>
 
 namespace std{
     namespace
@@ -81,5 +84,124 @@ namespace utils {
             (y2 - y1) * (y2 - y1) +
             (z2 - z1) * (z2 - z1)
         );
+    }
+
+    template<typename T>
+    long double cross(
+        const std::array<T, 2>& a,
+        const std::array<T, 2>& b,
+        const std::array<T, 2>& c
+    ) {
+        // (b - a) x (c - a)
+        long double abx = static_cast<long double>(b[0])  - static_cast<long double>(a[0]);
+        long double aby = static_cast<long double>(b[1]) - static_cast<long double>(a[1]);
+        long double acx = static_cast<long double>(c[0])  - static_cast<long double>(a[0]);
+        long double acy = static_cast<long double>(c[1]) - static_cast<long double>(a[1]);
+        return abx * acy - aby * acx;
+    }
+
+    // Helper: check if point lies on segment [a,b]
+    template<typename T>
+    bool point_on_segment(
+        const std::array<T, 2>& a,
+        const std::array<T, 2>& b,
+        const std::array<T, 2>& p,
+        long double eps = 1e-12L
+    ) {
+        long double cr = std::fabsl(cross(a, b, p));
+        if (cr > eps) return false; // not collinear
+
+        long double px = static_cast<long double>(p[0]);
+        long double py = static_cast<long double>(p[1]);
+        long double ax = static_cast<long double>(a[0]);
+        long double ay = static_cast<long double>(a[1]);
+        long double bx = static_cast<long double>(b[0]);
+        long double by = static_cast<long double>(b[1]);
+
+        return (px >= std::min(ax, bx) - eps && px <= std::max(ax, bx) + eps &&
+                py >= std::min(ay, by) - eps && py <= std::max(ay, by) + eps);
+    }
+
+    template<typename T>
+    bool point_in_polygon(
+        const std::vector<std::array<T, 2>>& polygon,
+        const std::array<T, 2>& point
+    ) {
+        const size_t n = polygon.size();
+        if (n < 3) return false;
+
+        // 1) Boundary check: point on any edge ⇒ inside
+        for (size_t i = 0, j = n - 1; i < n; j = i++) {
+            if (point_on_segment(polygon[j], polygon[i], point))
+                return true;
+        }
+
+        // 2) Standard ray-casting (strict interior only)
+        bool inside = false;
+        long double x  = static_cast<long double>(point[0]);
+        long double y  = static_cast<long double>(point[1]);
+
+        for (size_t i = 0, j = n - 1; i < n; j = i++) {
+            long double xi = static_cast<long double>(polygon[i][0]);
+            long double yi = static_cast<long double>(polygon[i][1]);
+            long double xj = static_cast<long double>(polygon[j][0]);
+            long double yj = static_cast<long double>(polygon[j][1]);
+
+            bool intersect = ((yi > y) != (yj > y)) &&
+                            (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect)
+                inside = !inside;
+        }
+
+        return inside;
+    }
+
+    template<typename T>
+    bool rectangle_fits_in_polygon(
+        const std::vector<std::array<T, 2>>& polygon,
+        const std::vector<std::array<T, 2>>& rectangle
+    ) {
+        for (const auto& corner : rectangle) {
+            if (!point_in_polygon(polygon, corner)) {
+                std::cout << "Corner (" << corner[0] << "," << corner[1] << ") is outside the polygon." << std::endl;
+                return false;
+            }
+        }
+        const std::array<T, 2> center = {
+            (rectangle[0][0] + rectangle[2][0]) / 2,
+            (rectangle[0][1] + rectangle[2][1]) / 2
+        };
+        if (!point_in_polygon(polygon, center)) {
+            std::cout << "Center (" << center[0] << "," << center[1] << ") is outside the polygon." << std::endl;
+            return false;
+        }
+        // If any edge of the rectangle intersects with any edge of the polygon, return false
+        // Otherwise, return true
+        for(int i = 0; i < rectangle.size(); ++i) {
+            const auto& rect_start = rectangle[i];
+            const auto& rect_end = rectangle[(i + 1) % rectangle.size()];
+            for(int j = 0; j < polygon.size(); ++j) {
+                const auto& poly_start = polygon[j];
+                const auto& poly_end = polygon[(j + 1) % polygon.size()];
+                // Check if line segments (rect_start, rect_end) and (poly_start, poly_end) intersect
+                long long d1 = (rect_end[0] - rect_start[0]) * (poly_start[1] - rect_start[1]) -
+                         (rect_end[1] - rect_start[1]) * (poly_start[0] - rect_start[0]);
+                long long d2 = (rect_end[0] - rect_start[0]) * (poly_end[1] - rect_start[1]) -
+                         (rect_end[1] - rect_start[1]) * (poly_end[0] - rect_start[0]);
+                long long d3 = (poly_end[0] - poly_start[0]) * (rect_start[1] - poly_start[1]) -
+                         (poly_end[1] - poly_start[1]) * (rect_start[0] - poly_start[0]);
+                long long d4 = (poly_end[0] - poly_start[0]) * (rect_end[1] - poly_start[1]) -
+                         (poly_end[1] - poly_start[1]) * (rect_end[0] - poly_start[0]);
+                if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
+                    ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) {
+                        std::cout << "Rectangle edge ((" << rect_start[0] << "," << rect_start[1] << ") to ("
+                                << rect_end[0] << "," << rect_end[1] << ")) intersects with polygon edge (("
+                                << poly_start[0] << "," << poly_start[1] << ") to ("
+                                << poly_end[0] << "," << poly_end[1] << "))." << std::endl;
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
