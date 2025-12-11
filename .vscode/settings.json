@@ -1,6 +1,6 @@
 {
     "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
-    "C_Cpp.default.compileCommands": "c:\\Users\\pc\\Documents\\AdventOfCode\\builddir/compile_commands.json",
+    "C_Cpp.default.compileCommands": "/home/timothie.geulin/Documents/AdventOfCode/builddir/compile_commands.json",
     "files.associations": {
         "chrono": "cpp"
     }

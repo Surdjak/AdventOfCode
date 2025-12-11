@@ -1,3 +1,5 @@
+#pragma once
+#include <algorithm>
 #include <type_traits>
 #include <cmath>
 #include <tuple>
@@ -109,7 +111,10 @@ namespace utils {
         long double eps = 1e-12L
     ) {
         long double cr = std::fabsl(cross(a, b, p));
-        if (cr > eps) return false; // not collinear
+        if (cr > eps) {
+            // std::cout << "Not colinear" << std::endl;
+            return false; // not collinear
+        }
 
         long double px = static_cast<long double>(p[0]);
         long double py = static_cast<long double>(p[1]);
@@ -118,8 +123,10 @@ namespace utils {
         long double bx = static_cast<long double>(b[0]);
         long double by = static_cast<long double>(b[1]);
 
-        return (px >= std::min(ax, bx) - eps && px <= std::max(ax, bx) + eps &&
-                py >= std::min(ay, by) - eps && py <= std::max(ay, by) + eps);
+        bool colinear = (px >= std::min(ax, bx) - eps && px <= std::max(ax, bx) + eps && py >= std::min(ay, by) - eps && py <= std::max(ay, by) + eps);
+        // std::cout << std::format("Colinear: {}", colinear) << std::endl;
+
+        return colinear;
     }
 
     template<typename T>
@@ -128,7 +135,10 @@ namespace utils {
         const std::array<T, 2>& point
     ) {
         const size_t n = polygon.size();
-        if (n < 3) return false;
+        if (n < 3) {
+            // std::cout << "Polygon has less than 3 vertices." << std::endl;
+            return false;
+        }
 
         // 1) Boundary check: point on any edge ⇒ inside
         for (size_t i = 0, j = n - 1; i < n; j = i++) {
@@ -163,7 +173,7 @@ namespace utils {
     ) {
         for (const auto& corner : rectangle) {
             if (!point_in_polygon(polygon, corner)) {
-                std::cout << "Corner (" << corner[0] << "," << corner[1] << ") is outside the polygon." << std::endl;
+                // std::cout << "Corner (" << corner[0] << "," << corner[1] << ") is outside the polygon." << std::endl;
                 return false;
             }
         }
@@ -172,7 +182,7 @@ namespace utils {
             (rectangle[0][1] + rectangle[2][1]) / 2
         };
         if (!point_in_polygon(polygon, center)) {
-            std::cout << "Center (" << center[0] << "," << center[1] << ") is outside the polygon." << std::endl;
+            // std::cout << "Center (" << center[0] << "," << center[1] << ") is outside the polygon." << std::endl;
             return false;
         }
         // If any edge of the rectangle intersects with any edge of the polygon, return false
@@ -194,10 +204,10 @@ namespace utils {
                          (poly_end[1] - poly_start[1]) * (rect_end[0] - poly_start[0]);
                 if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
                     ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) {
-                        std::cout << "Rectangle edge ((" << rect_start[0] << "," << rect_start[1] << ") to ("
-                                << rect_end[0] << "," << rect_end[1] << ")) intersects with polygon edge (("
-                                << poly_start[0] << "," << poly_start[1] << ") to ("
-                                << poly_end[0] << "," << poly_end[1] << "))." << std::endl;
+                        // std::cout << "Rectangle edge ((" << rect_start[0] << "," << rect_start[1] << ") to ("
+                        //         << rect_end[0] << "," << rect_end[1] << ")) intersects with polygon edge (("
+                        //         << poly_start[0] << "," << poly_start[1] << ") to ("
+                        //         << poly_end[0] << "," << poly_end[1] << "))." << std::endl;
                     return false;
                 }
             }

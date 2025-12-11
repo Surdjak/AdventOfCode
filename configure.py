@@ -1,5 +1,6 @@
 from pathlib import Path
 import subprocess
+import os
 
 ROOT_PATH = Path(__file__).parent
 
@@ -17,7 +18,7 @@ class MesonConfigurator:
     exe_modules: list[Module]
 
     def __init__(self):
-        self.top_level_meson_build_content = f"project('{ROOT_PATH.name}', 'cpp', default_options : ['cpp_std=c++20'],)\n"
+        self.top_level_meson_build_content = f"project('{ROOT_PATH.name}', 'cpp', default_options : ['cpp_std=c++23'],)\n"
         self.list_modules()
         self.global_dep_string = f", dependencies: [{', '.join(f"{module.name}_dep" for module in self.global_modules)}]" if self.global_modules else ""
         for module in self.global_modules:
@@ -71,4 +72,6 @@ class MesonConfigurator:
 if __name__ == '__main__':
     configurator = MesonConfigurator()
     print('Running meson setup...')
+    os.environ['CC'] = 'gcc-14'
+    os.environ['CXX'] = 'g++-14'
     subprocess.run(['meson', 'setup', '--reconfigure', 'builddir', '-Dbuildtype=release', '-Doptimization=3', '-Ddebug=false', '-Db_lto=true', '-Db_pie=true'], check=True)

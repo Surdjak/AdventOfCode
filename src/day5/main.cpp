@@ -70,7 +70,7 @@ long long process2(const Ingredients& ingredients) {
     const auto begin = std::chrono::high_resolution_clock::now();
     long long fresh_range = 0;
     for(const auto range : ingredients.ranges) {
-        fresh_range += (range.second - range.first + long long(1));
+        fresh_range += (range.second - range.first + static_cast<long long>(1));
     }
     const auto end = std::chrono::high_resolution_clock::now();
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
