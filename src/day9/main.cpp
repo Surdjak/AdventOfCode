@@ -68,10 +68,7 @@ long long process2(std::vector<std::array<long long, 2>>& tiles) {
             const auto& tile2 = tiles[j];
             // Check if the rectangle formed by tile1 and tile2 fits within the polygon which corners are defined by the original tiles order
             std::vector<std::array<long long, 2>> rectangle_corners = {
-                {std::min(tile1[0], tile2[0]), std::min(tile1[1], tile2[1])},
-                {std::min(tile1[0], tile2[0]), std::max(tile1[1], tile2[1])},
-                {std::max(tile1[0], tile2[0]), std::max(tile1[1], tile2[1])},
-                {std::max(tile1[0], tile2[0]), std::min(tile1[1], tile2[1])}
+                {tile1[0], tile1[1]}, {tile2[0], tile1[1]}, {tile2[0], tile2[1]}, {tile1[0], tile2[1]}
             };
             if (utils::rectangle_fits_in_polygon(tiles, rectangle_corners)) {
                 // Compute area of rectangle formed by tile1 and tile2
