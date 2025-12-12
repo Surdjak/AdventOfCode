@@ -16,3 +16,18 @@ std::string utils::read_file(const std::filesystem::path& filepath) {
         throw std::runtime_error("Error reading file " + filepath.string() + ": " + e.what());
     }
 }
+
+std::vector<std::string> utils::split_string(const std::string& str, char delimiter) {
+    std::vector<std::string> parts;
+    std::string current;
+    for (char ch : str) {
+        if (ch == delimiter) {
+            parts.push_back(current);
+            current.clear();
+        } else {
+            current += ch;
+        }
+    }
+    parts.push_back(current);
+    return parts;
+}
